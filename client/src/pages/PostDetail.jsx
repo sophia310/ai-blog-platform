@@ -1,18 +1,48 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import {
+  useEffect,
+  useState
+} from "react";
+
+import {
+  useParams,
+  useNavigate
+} from "react-router-dom";
+
+import { toast } from "react-toastify";
+
 import api from "../api/axios";
 
 function PostDetail() {
-  const { id } = useParams();
-  const [post, setPost] = useState(null);
+
+  const navigate =
+    useNavigate();
+
+  const { id } =
+    useParams();
+
+  const [post, setPost] =
+    useState(null);
+
+  const user = JSON.parse(
+    localStorage.getItem("user")
+  );
 
   const getPost = async () => {
+
     try {
-      const res = await api.get(`/posts/${id}`);
+
+      const res =
+        await api.get(
+          `/posts/${id}`
+        );
+
       setPost(res.data);
+
     } catch (error) {
-      console.log(error);
-      alert("Failed to load post");
+
+      toast.error(
+        "Failed to load post"
+      );
     }
   };
 
@@ -20,42 +50,157 @@ function PostDetail() {
     getPost();
   }, [id]);
 
-  const calculateReadingTime = (content) => {
-    const words = content.trim().split(/\s+/).length;
-    const minutes = Math.ceil(words / 200);
-    return minutes;
-  };
+  const calculateReadingTime =
+    (content) => {
+
+      const words =
+        content
+          .replace(/<[^>]+>/g, "")
+          .split(/\s+/).length;
+
+      return Math.ceil(
+        words / 200
+      );
+    };
+
+  const handleDelete =
+    async () => {
+
+      const confirmDelete =
+        window.confirm(
+          "Delete this post?"
+        );
+
+      if (!confirmDelete)
+        return;
+
+      try {
+
+        await api.delete(
+          `/posts/${id}`
+        );
+
+        toast.success(
+          "Post deleted"
+        );
+
+        navigate("/");
+
+      } catch (error) {
+
+        toast.error(
+          "Failed to delete"
+        );
+      }
+    };
 
   if (!post) {
-    return <p>Loading...</p>;
+
+    return (
+      <div className="text-center mt-5">
+        Loading...
+      </div>
+    );
   }
 
   return (
-    <div className="card p-4 shadow">
-      <h1>{post.title}</h1>
 
-      <p className="text-muted">
-        By {post.author?.name || "Unknown Author"} |{" "}
-        {calculateReadingTime(post.content)} min read
-      </p>
+    <div className="post-detail-container">
 
-      {post.tags?.length > 0 && (
-        <div className="mb-3">
-          {post.tags.map((tag, index) => (
-            <span key={index} className="badge bg-secondary me-2">
-              {tag}
-            </span>
-          ))}
+      {/* COVER */}
+
+      {post.coverImage && (
+
+        <div className="detail-cover-wrapper">
+
+          <img
+            src={post.coverImage}
+            alt={post.title}
+            className="detail-cover-image"
+          />
+
         </div>
       )}
 
-      {post.metaDescription && (
-        <div className="alert alert-info">
-          <strong>Meta Description:</strong> {post.metaDescription}
-        </div>
-      )}
+      <div className="post-detail-card">
 
-      <p style={{ whiteSpace: "pre-line" }}>{post.content}</p>
+        <h1 className="detail-title">
+          {post.title}
+        </h1>
+
+        <div className="detail-meta">
+
+          <span>
+            By{" "}
+            {post.author?.name}
+          </span>
+
+          <span>
+            {
+              calculateReadingTime(
+                post.content
+              )
+            }{" "}
+            min read
+          </span>
+
+        </div>
+
+        <div className="tags-wrapper mb-4">
+
+          {post.tags?.map(
+            (tag, index) => (
+
+              <span
+                key={index}
+                className="minimal-tag"
+              >
+                #{tag}
+              </span>
+
+            )
+          )}
+
+        </div>
+
+        {user?.id ===
+          post.author?._id && (
+
+            <div className="mb-4">
+
+              <button
+                className="btn btn-outline-light me-3"
+                onClick={() =>
+                  navigate(
+                    `/edit/${post._id}`
+                  )
+                }
+              >
+                Edit
+              </button>
+
+              <button
+                className="btn btn-outline-danger"
+                onClick={
+                  handleDelete
+                }
+              >
+                Delete
+              </button>
+
+            </div>
+          )}
+
+        <div
+          className="detail-content"
+          dangerouslySetInnerHTML={{
+            __html:
+              post.content
+          }}
+        ></div>
+
+      </div>
+
     </div>
   );
 }

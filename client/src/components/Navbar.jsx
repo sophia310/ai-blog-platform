@@ -1,48 +1,129 @@
-import { Link, useNavigate } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+  useLocation
+} from "react-router-dom";
 
-function Navbar() {
+function Navbar({
+  darkMode,
+  setDarkMode
+}) {
+
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
+
+  const location = useLocation();
+
+  const token =
+    localStorage.getItem("token");
 
   const logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+
+    localStorage.removeItem(
+      "token"
+    );
+
+    localStorage.removeItem(
+      "user"
+    );
+
     navigate("/login");
   };
 
+  // ACTIVE LINK FUNCTION
+  const isActive = (path) => {
+
+    return location.pathname === path
+      ? "minimal-nav-link active-nav-link"
+      : "minimal-nav-link";
+  };
+
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-4">
-      <Link className="navbar-brand" to="/">
-        AI Blog Platform
+
+    <nav className="navbar-container">
+
+      {/* LOGO */}
+      <Link
+        to="/"
+        className="lumina-logo"
+      >
+        Lumina
       </Link>
 
-      <div className="ms-auto">
-        <Link className="btn btn-outline-light me-2" to="/">
+      {/* NAVIGATION */}
+      <div className="nav-links-wrapper">
+
+        {/* THEME TOGGLE */}
+        <button
+          className="theme-toggle"
+          onClick={() =>
+            setDarkMode(!darkMode)
+          }
+        >
+
+          {darkMode
+            ? "DARK"
+            : "LIGHT"}
+
+        </button>
+
+        {/* HOME */}
+        <Link
+          to="/"
+          className={isActive("/")}
+        >
           Home
         </Link>
 
         {token ? (
           <>
-            <Link className="btn btn-outline-light me-2" to="/editor">
+
+            {/* WRITE */}
+            <Link
+              to="/editor"
+              className={isActive("/editor")}
+            >
               Write
             </Link>
 
-            <button className="btn btn-danger" onClick={logout}>
+            {/* PROFILE */}
+            <Link
+              to="/profile"
+              className={isActive("/profile")}
+            >
+              Profile
+            </Link>
+
+            {/* LOGOUT */}
+            <button
+              onClick={logout}
+              className="logout-link"
+            >
               Logout
             </button>
+
           </>
         ) : (
           <>
-            <Link className="btn btn-outline-light me-2" to="/login">
+
+            <Link
+              to="/login"
+              className={isActive("/login")}
+            >
               Login
             </Link>
 
-            <Link className="btn btn-warning" to="/register">
+            <Link
+              to="/register"
+              className={isActive("/register")}
+            >
               Register
             </Link>
+
           </>
         )}
+
       </div>
+
     </nav>
   );
 }

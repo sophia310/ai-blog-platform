@@ -16,7 +16,39 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true
-    }
+    },
+
+    profileImage: {
+      type: String
+    },
+
+    isVerified: {
+      type: Boolean,
+      default: false
+    },
+
+
+    bio: {
+      type: String
+    },
+
+    role: {
+      type: String,
+      default:
+        "Visual Artist & Developer"
+    },
+
+    instagram: {
+      type: String
+    },
+
+    resetPasswordToken: String,
+
+    resetPasswordExpires: Date,
+
+    otp: String,
+
+    otpExpires: Date,
   },
   { timestamps: true }
 );

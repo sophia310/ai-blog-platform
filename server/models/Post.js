@@ -23,6 +23,11 @@ const postSchema = new mongoose.Schema(
       required: true
     },
 
+    coverImage: {
+      type: String,
+      default: ""
+    },
+
     metaDescription: {
       type: String,
       default: ""
