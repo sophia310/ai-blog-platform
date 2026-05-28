@@ -1,11 +1,28 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+
+import {
+  useNavigate,
+  Link
+} from "react-router-dom";
+
 import { toast } from "react-toastify";
+
+import {
+  Eye,
+  EyeOff
+} from "lucide-react";
+
 import api from "../api/axios";
 
 function Register() {
 
   const navigate = useNavigate();
+
+  const [loading, setLoading] =
+    useState(false);
+
+  const [showPassword, setShowPassword] =
+    useState(false);
 
   const [formData, setFormData] =
     useState({
@@ -23,11 +40,33 @@ function Register() {
     });
   };
 
+  const getPasswordStrength = () => {
+
+    const password =
+      formData.password;
+
+    if (password.length < 6)
+      return "Weak";
+
+    if (
+      /[A-Z]/.test(password) &&
+      /[0-9]/.test(password) &&
+      password.length >= 8
+    ) {
+
+      return "Strong";
+    }
+
+    return "Medium";
+  };
+
   const handleSubmit = async (e) => {
 
     e.preventDefault();
 
     try {
+
+      setLoading(true);
 
       await api.post(
         "/auth/register",
@@ -35,12 +74,18 @@ function Register() {
       );
 
       toast.success(
-        "Registration successful"
+        "OTP sent to your email"
       );
 
-      setTimeout(() => {
-        navigate("/login");
-      }, 1500);
+      navigate(
+        "/verify-otp",
+        {
+          state: {
+            email:
+              formData.email
+          }
+        }
+      );
 
     } catch (error) {
 
@@ -50,34 +95,73 @@ function Register() {
         error.response?.data?.message ||
         "Registration failed"
       );
+
+    } finally {
+
+      setLoading(false);
     }
   };
 
   return (
 
-    <div className="row justify-content-center">
+    <div className="auth-page">
 
-      <div className="col-md-5">
+      {/* Glow */}
+      <div className="auth-glow"></div>
 
-        <div className="card p-4 shadow">
+      <div className="auth-container">
 
-          <h2 className="mb-4 text-center">
+        {/* LEFT */}
+
+        <div className="auth-left">
+
+          <p className="auth-mini-text">
+
+            BEGIN YOUR CREATIVE JOURNEY
+
+          </p>
+
+          <h1 className="auth-heading">
+
+            Create
+            <br />
+            Your Identity
+
+          </h1>
+
+          <p className="auth-description">
+
+            Build your editorial
+            presence, publish
+            stories, and shape immersive
+            digital experiences through
+            Lumina.
+
+          </p>
+
+        </div>
+
+        {/* RIGHT */}
+
+        <div className="auth-panel">
+
+          <h2 className="auth-title">
             Register
           </h2>
 
           <form onSubmit={handleSubmit}>
 
-            {/* Name */}
-            <div className="mb-3">
+            {/* NAME */}
 
-              <label className="form-label">
-                Name
+            <div className="auth-input-group">
+
+              <label>
+                FULL NAME
               </label>
 
               <input
                 type="text"
                 name="name"
-                className="form-control"
                 placeholder="Enter your name"
                 value={formData.name}
                 onChange={handleChange}
@@ -86,17 +170,17 @@ function Register() {
 
             </div>
 
-            {/* Email */}
-            <div className="mb-3">
+            {/* EMAIL */}
 
-              <label className="form-label">
-                Email
+            <div className="auth-input-group">
+
+              <label>
+                EMAIL
               </label>
 
               <input
                 type="email"
                 name="email"
-                className="form-control"
                 placeholder="Enter your email"
                 value={formData.email}
                 onChange={handleChange}
@@ -105,31 +189,91 @@ function Register() {
 
             </div>
 
-            {/* Password */}
-            <div className="mb-4">
+            {/* PASSWORD */}
 
-              <label className="form-label">
-                Password
+            <div className="auth-input-group">
+
+              <label>
+                PASSWORD
               </label>
 
-              <input
-                type="password"
-                name="password"
-                className="form-control"
-                placeholder="Create a password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-              />
+              <div className="password-wrapper">
+
+                <input
+                  type={
+                    showPassword
+                      ? "text"
+                      : "password"
+                  }
+                  name="password"
+                  placeholder="Create password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                />
+
+                <button
+                  type="button"
+                  className="password-toggle"
+                  onClick={() =>
+                    setShowPassword(
+                      !showPassword
+                    )
+                  }
+                >
+
+                  {showPassword ? (
+                    <EyeOff size={18} />
+                  ) : (
+                    <Eye size={18} />
+                  )}
+
+                </button>
+
+              </div>
+
+              {/* PASSWORD STRENGTH */}
+
+              {formData.password && (
+
+                <div
+                  className={`password-strength ${getPasswordStrength().toLowerCase()}`}
+                >
+
+                  {getPasswordStrength()} Password
+
+                </div>
+
+              )}
 
             </div>
 
-            {/* Register Button */}
-            <button className="btn btn-dark w-100">
-              Register
+            {/* BUTTON */}
+
+            <button
+              className="auth-button"
+              disabled={loading}
+            >
+
+              {loading
+                ? "Creating Identity..."
+                : "Create Account"}
+
             </button>
 
           </form>
+
+          {/* BOTTOM */}
+
+          <p className="auth-bottom-text">
+
+            Already have an account?{" "}
+
+            <Link to="/login">
+              Login
+            </Link>
+
+          </p>
 
         </div>
 

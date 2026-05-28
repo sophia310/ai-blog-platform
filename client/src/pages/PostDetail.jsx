@@ -40,6 +40,8 @@ function PostDetail() {
 
     } catch (error) {
 
+      console.log(error);
+
       toast.error(
         "Failed to load post"
       );
@@ -47,7 +49,9 @@ function PostDetail() {
   };
 
   useEffect(() => {
+
     getPost();
+
   }, [id]);
 
   const calculateReadingTime =
@@ -88,6 +92,8 @@ function PostDetail() {
 
       } catch (error) {
 
+        console.log(error);
+
         toast.error(
           "Failed to delete"
         );
@@ -97,109 +103,116 @@ function PostDetail() {
   if (!post) {
 
     return (
+
       <div className="text-center mt-5">
+
         Loading...
+
       </div>
     );
   }
 
   return (
 
-    <div className="post-detail-container">
+    <div className="post-detail-page">
 
-      {/* COVER */}
+      {/* COVER IMAGE */}
 
       {post.coverImage && (
 
-        <div className="detail-cover-wrapper">
+        <img
+          src={post.coverImage}
+          alt={post.title}
+          className="post-detail-cover"
+        />
 
-          <img
-            src={post.coverImage}
-            alt={post.title}
-            className="detail-cover-image"
-          />
-
-        </div>
       )}
 
-      <div className="post-detail-card">
+      {/* TITLE */}
 
-        <h1 className="detail-title">
-          {post.title}
-        </h1>
+      <h1 className="post-detail-title">
 
-        <div className="detail-meta">
+        {post.title}
 
-          <span>
-            By{" "}
-            {post.author?.name}
-          </span>
+      </h1>
 
-          <span>
-            {
-              calculateReadingTime(
-                post.content
-              )
-            }{" "}
-            min read
-          </span>
+      {/* META */}
 
-        </div>
+      <div className="post-detail-meta">
 
-        <div className="tags-wrapper mb-4">
+        <span>
+          By {post.author?.name}
+        </span>
 
-          {post.tags?.map(
-            (tag, index) => (
-
-              <span
-                key={index}
-                className="minimal-tag"
-              >
-                #{tag}
-              </span>
-
-            )
-          )}
-
-        </div>
-
-        {user?.id ===
-          post.author?._id && (
-
-            <div className="mb-4">
-
-              <button
-                className="btn btn-outline-light me-3"
-                onClick={() =>
-                  navigate(
-                    `/edit/${post._id}`
-                  )
-                }
-              >
-                Edit
-              </button>
-
-              <button
-                className="btn btn-outline-danger"
-                onClick={
-                  handleDelete
-                }
-              >
-                Delete
-              </button>
-
-            </div>
-          )}
-
-        <div
-          className="detail-content"
-          dangerouslySetInnerHTML={{
-            __html:
-              post.content
-          }}
-        ></div>
+        <span>
+          {calculateReadingTime(
+            post.content
+          )} min read
+        </span>
 
       </div>
+
+      {/* TAGS */}
+
+      <div className="post-detail-tags">
+
+        {post.tags?.map(
+          (tag, index) => (
+
+            <span
+              key={index}
+              className="post-detail-tag"
+            >
+              #{tag}
+            </span>
+
+          )
+        )}
+
+      </div>
+
+      {/* ACTION BUTTONS */}
+
+      {user?.id ===
+        post.author?._id && (
+
+          <div
+            className="d-flex gap-3 mb-5"
+          >
+
+            <button
+              className="save-profile-btn"
+              onClick={() =>
+                navigate(
+                  `/edit/${post._id}`
+                )
+              }
+            >
+              Edit Story
+            </button>
+
+            <button
+              className="cancel-profile-btn"
+              onClick={
+                handleDelete
+              }
+            >
+              Delete
+            </button>
+
+          </div>
+
+        )}
+
+      {/* CONTENT */}
+
+      <div
+        className="post-detail-content"
+        dangerouslySetInnerHTML={{
+          __html:
+            post.content
+        }}
+      ></div>
 
     </div>
   );

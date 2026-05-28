@@ -16,6 +16,7 @@ function Navbar({
   const token =
     localStorage.getItem("token");
 
+  // LOGOUT
   const logout = () => {
 
     localStorage.removeItem(
@@ -29,7 +30,7 @@ function Navbar({
     navigate("/login");
   };
 
-  // ACTIVE LINK FUNCTION
+  // ACTIVE LINK STYLE
   const isActive = (path) => {
 
     return location.pathname === path
@@ -41,7 +42,10 @@ function Navbar({
 
     <nav className="navbar-container">
 
+      {/* ========================= */}
       {/* LOGO */}
+      {/* ========================= */}
+
       <Link
         to="/"
         className="lumina-logo"
@@ -49,10 +53,14 @@ function Navbar({
         Lumina
       </Link>
 
-      {/* NAVIGATION */}
+      {/* ========================= */}
+      {/* NAV LINKS */}
+      {/* ========================= */}
+
       <div className="nav-links-wrapper">
 
         {/* THEME TOGGLE */}
+
         <button
           className="theme-toggle"
           onClick={() =>
@@ -60,13 +68,12 @@ function Navbar({
           }
         >
 
-          {darkMode
-            ? "DARK"
-            : "LIGHT"}
+          {darkMode ? "☀" : "☾"}
 
         </button>
 
         {/* HOME */}
+
         <Link
           to="/"
           className={isActive("/")}
@@ -78,6 +85,7 @@ function Navbar({
           <>
 
             {/* WRITE */}
+
             <Link
               to="/editor"
               className={isActive("/editor")}
@@ -86,6 +94,7 @@ function Navbar({
             </Link>
 
             {/* PROFILE */}
+
             <Link
               to="/profile"
               className={isActive("/profile")}
@@ -94,6 +103,7 @@ function Navbar({
             </Link>
 
             {/* LOGOUT */}
+
             <button
               onClick={logout}
               className="logout-link"
@@ -105,12 +115,16 @@ function Navbar({
         ) : (
           <>
 
+            {/* LOGIN */}
+
             <Link
               to="/login"
               className={isActive("/login")}
             >
               Login
             </Link>
+
+            {/* REGISTER */}
 
             <Link
               to="/register"

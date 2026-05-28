@@ -1,6 +1,7 @@
-import nodemailer from "nodemailer";
+const nodemailer = require("nodemailer");
 
 const transporter = nodemailer.createTransport({
+
   service: "gmail",
 
   auth: {
@@ -9,4 +10,17 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-export default transporter;
+transporter.verify((error, success) => {
+
+  if (error) {
+
+    console.log("MAIL ERROR:");
+    console.log(error);
+
+  } else {
+
+    console.log("MAIL SERVER READY");
+  }
+});
+
+module.exports = transporter;

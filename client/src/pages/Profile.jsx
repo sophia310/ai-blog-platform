@@ -350,7 +350,7 @@ function Profile() {
 
         <div className="profile-modal-overlay">
 
-          <div className="profile-modal">
+          <div className="edit-profile-modal">
 
             <h2>
               Edit Profile
@@ -441,7 +441,7 @@ function Profile() {
               </div>
 
               {/* ACTIONS */}
-              <div className="d-flex gap-3">
+              <div className="edit-profile-actions">
 
                 <button
                   type="submit"

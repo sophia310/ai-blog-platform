@@ -1,16 +1,28 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+
+import { useNavigate, Link } from "react-router-dom";
+
 import { toast } from "react-toastify";
+
+import { Eye, EyeOff } from "lucide-react";
+
 import api from "../api/axios";
 
 function Login() {
 
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    email: "",
-    password: ""
-  });
+  const [showPassword, setShowPassword] =
+    useState(false);
+
+  const [loading, setLoading] =
+    useState(false);
+
+  const [formData, setFormData] =
+    useState({
+      email: "",
+      password: ""
+    });
 
   const handleChange = (e) => {
 
@@ -25,6 +37,8 @@ function Login() {
     e.preventDefault();
 
     try {
+
+      setLoading(true);
 
       const res = await api.post(
         "/auth/login",
@@ -47,7 +61,7 @@ function Login() {
 
       setTimeout(() => {
         navigate("/");
-      }, 1500);
+      }, 1200);
 
     } catch (error) {
 
@@ -57,34 +71,63 @@ function Login() {
         error.response?.data?.message ||
         "Login failed"
       );
+
+    } finally {
+
+      setLoading(false);
     }
   };
 
   return (
 
-    <div className="row justify-content-center">
+    <div className="auth-page">
 
-      <div className="col-md-5">
+      {/* Atmosphere */}
+      <div className="auth-glow"></div>
 
-        <div className="card p-4 shadow">
+      <div className="auth-container">
 
-          <h2 className="mb-4 text-center">
-            Login
+        {/* Left Side */}
+        <div className="auth-left">
+
+          <p className="auth-mini-text">
+            ENTER THE EDITORIAL SPACE
+          </p>
+
+          <h1 className="auth-heading">
+            Welcome Back
+          </h1>
+
+          <p className="auth-description">
+
+            Continue crafting
+            stories, elegant ideas, and
+            immersive digital experiences.
+
+          </p>
+
+        </div>
+
+        {/* Right Side */}
+        <div className="auth-panel">
+
+          <h2 className="auth-title">
+            Sign In
           </h2>
 
           <form onSubmit={handleSubmit}>
 
-            {/* Email */}
-            <div className="mb-3">
+            {/* EMAIL */}
 
-              <label className="form-label">
-                Email
+            <div className="auth-input-group">
+
+              <label>
+                EMAIL
               </label>
 
               <input
                 type="email"
                 name="email"
-                className="form-control"
                 placeholder="Enter your email"
                 value={formData.email}
                 onChange={handleChange}
@@ -93,31 +136,90 @@ function Login() {
 
             </div>
 
-            {/* Password */}
-            <div className="mb-4">
+            {/* PASSWORD */}
 
-              <label className="form-label">
-                Password
+            <div className="auth-input-group">
+
+              <label>
+                PASSWORD
               </label>
 
-              <input
-                type="password"
-                name="password"
-                className="form-control"
-                placeholder="Enter your password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-              />
+              <div className="password-wrapper">
+
+                <input
+                  type={
+                    showPassword
+                      ? "text"
+                      : "password"
+                  }
+                  name="password"
+                  placeholder="Enter password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                />
+
+                <button
+                  type="button"
+                  className="password-toggle"
+                  onClick={() =>
+                    setShowPassword(
+                      !showPassword
+                    )
+                  }
+                >
+
+                  {showPassword ? (
+                    <EyeOff size={18} />
+                  ) : (
+                    <Eye size={18} />
+                  )}
+
+                </button>
+
+              </div>
 
             </div>
 
-            {/* Login Button */}
-            <button className="btn btn-dark w-100">
-              Login
+            {/* FORGOT PASSWORD */}
+
+            <div className="forgot-wrapper">
+
+              <Link
+                to="/forgot-password"
+                className="forgot-link"
+              >
+                Forgot Password?
+              </Link>
+
+            </div>
+
+            {/* BUTTON */}
+
+            <button
+              className="auth-button"
+              disabled={loading}
+            >
+
+              {loading
+                ? "Signing In..."
+                : "Login"}
+
             </button>
 
           </form>
+
+          {/* BOTTOM LINK */}
+
+          <p className="auth-bottom-text">
+
+            Don’t have an account?{" "}
+
+            <Link to="/register">
+              Register
+            </Link>
+
+          </p>
 
         </div>
 
