@@ -1,5 +1,8 @@
 const nodemailer = require("nodemailer");
 
+console.log("SMTP USER:", process.env.BREVO_LOGIN);
+console.log("SMTP PASS EXISTS:", !!process.env.BREVO_PASSWORD);
+
 const transporter = nodemailer.createTransport({
   host: "smtp-relay.brevo.com",
   port: 587,
