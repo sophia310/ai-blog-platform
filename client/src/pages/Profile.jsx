@@ -18,6 +18,10 @@ function Profile() {
   const [myPosts, setMyPosts] =
     useState([]);
 
+  const [savedPosts,
+    setSavedPosts] =
+    useState([]);
+
   const [showModal, setShowModal] =
     useState(false);
 
@@ -76,9 +80,31 @@ function Profile() {
     }
   };
 
+  const getSavedPosts =
+    async () => {
+
+      try {
+
+        const res =
+          await api.get(
+            "/bookmarks"
+          );
+
+        setSavedPosts(
+          res.data
+        );
+
+      } catch (error) {
+
+        console.log(error);
+      }
+    };
+
   useEffect(() => {
 
     getMyPosts();
+
+    getSavedPosts();
 
     setName(user?.name || "");
 
@@ -96,6 +122,8 @@ function Profile() {
     );
 
   }, []);
+
+
 
   const handleImageChange = (e) => {
 
@@ -335,6 +363,44 @@ function Profile() {
               />
 
             ))}
+
+          </div>
+
+        )}
+
+      </section>
+
+      <section className="profile-posts-section">
+
+        <h2 className="profile-section-heading">
+
+          Saved Stories
+
+        </h2>
+
+        {savedPosts.length === 0 ? (
+
+          <div className="empty-profile-state">
+
+            You haven't saved any
+            stories yet.
+
+          </div>
+
+        ) : (
+
+          <div className="profile-post-grid">
+
+            {savedPosts.map(
+              (post) => (
+
+                <PostCard
+                  key={post._id}
+                  post={post}
+                />
+
+              )
+            )}
 
           </div>
 

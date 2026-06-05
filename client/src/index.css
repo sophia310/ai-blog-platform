@@ -4073,3 +4073,308 @@ body.light-mode .post-detail-cover {
     font-size: 1.5rem;
   }
 }
+
+/* ==========================
+   EDIT POST
+========================== */
+
+.edit-post-page {
+
+  max-width: 1000px;
+
+  margin: 60px auto;
+
+  padding: 0 20px;
+}
+
+.edit-post-card {
+
+  background: var(--glass-bg);
+
+  border: 1px solid var(--glass-border);
+
+  border-radius: 32px;
+
+  padding: 50px;
+
+  backdrop-filter: blur(20px);
+}
+
+.edit-subtitle {
+
+  letter-spacing: 4px;
+
+  text-transform: uppercase;
+
+  color: var(--text-secondary);
+
+  margin-bottom: 12px;
+}
+
+.edit-title {
+
+  font-size: 4rem;
+
+  font-family: "Playfair Display", serif;
+
+  margin-bottom: 50px;
+
+  color: var(--text-primary);
+}
+
+.edit-group {
+
+  margin-bottom: 30px;
+}
+
+.edit-group label {
+
+  display: block;
+
+  margin-bottom: 12px;
+
+  color: var(--text-secondary);
+
+  letter-spacing: 2px;
+
+  text-transform: uppercase;
+
+  font-size: 0.85rem;
+}
+
+.edit-input,
+.edit-textarea {
+
+  width: 100%;
+
+  padding: 18px 22px;
+
+  border-radius: 18px;
+
+  border: 1px solid var(--glass-border);
+
+  background: rgba(255,255,255,0.04);
+
+  color: var(--text-primary);
+
+  outline: none;
+}
+
+.edit-textarea {
+
+  resize: vertical;
+}
+
+.edit-input:focus,
+.edit-textarea:focus {
+
+  border-color: #7a0019;
+}
+
+.edit-actions {
+
+  display: flex;
+
+  gap: 16px;
+
+  margin-top: 20px;
+}
+
+.save-btn {
+
+  border: none;
+
+  padding: 14px 30px;
+
+  border-radius: 16px;
+
+  background: linear-gradient(
+    135deg,
+    #7a0019,
+    #b11226
+  );
+
+  color: white;
+
+  font-weight: 600;
+}
+
+.cancel-btn {
+
+  border: 1px solid var(--glass-border);
+
+  background: transparent;
+
+  color: var(--text-primary);
+
+  padding: 14px 30px;
+
+  border-radius: 16px;
+}
+
+/* LIGHT MODE */
+
+body.light-mode .edit-post-card {
+
+  background: rgba(255,255,255,0.75);
+}
+
+body.light-mode .edit-input,
+body.light-mode .edit-textarea {
+
+  background: white;
+
+  color: #111;
+}
+
+/* DELETE MODAL */
+
+.delete-overlay {
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.65);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 9999;
+}
+
+.delete-modal {
+  width: 420px;
+
+  padding: 32px;
+
+  border-radius: 24px;
+
+  background: var(--glass-bg);
+
+  border: 1px solid
+    var(--glass-border);
+
+  backdrop-filter: blur(20px);
+
+  text-align: center;
+
+  box-shadow:
+    0 20px 60px
+    rgba(0, 0, 0, 0.4);
+}
+
+.delete-modal h3 {
+  font-size: 1.8rem;
+
+  margin-bottom: 12px;
+
+  color: var(--text-primary);
+}
+
+.delete-modal p {
+  color: var(--text-secondary);
+
+  margin-bottom: 24px;
+}
+
+.delete-modal-actions {
+  display: flex;
+
+  justify-content: center;
+
+  gap: 15px;
+}
+
+.bookmark-btn,
+.share-btn {
+
+  padding: 12px 22px;
+
+  border: none;
+
+  border-radius: 14px;
+
+  background:
+    rgba(255,255,255,.08);
+
+  color:
+    var(--text-primary);
+
+  transition: .3s ease;
+}
+
+.bookmark-btn:hover,
+.share-btn:hover {
+
+  transform:
+    translateY(-2px);
+
+  background:
+    rgba(255,255,255,.14);
+}
+
+.comments-section {
+
+  margin-top: 80px;
+}
+
+.comment-form textarea {
+
+  width: 100%;
+
+  min-height: 120px;
+
+  border-radius: 16px;
+
+  padding: 18px;
+
+  border: 1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.08
+    );
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.03
+    );
+
+  color:
+    var(--text-primary);
+}
+
+.comment-card {
+
+  margin-top: 20px;
+
+  padding: 20px;
+
+  border-radius: 16px;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.04
+    );
+}
+
+.comment-submit-btn {
+  margin-top: 16px;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.comment-submit-btn:hover {
+  transform: translateY(-2px);
+}

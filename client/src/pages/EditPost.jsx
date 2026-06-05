@@ -32,8 +32,6 @@ function EditPost() {
 
     } catch (error) {
 
-      console.log(error);
-
       toast.error("Failed to load post");
     }
   };
@@ -67,8 +65,6 @@ function EditPost() {
 
     } catch (error) {
 
-      console.log(error);
-
       toast.error(
         error.response?.data?.message ||
         "Failed to update post"
@@ -78,103 +74,119 @@ function EditPost() {
 
   return (
 
-    <div className="row justify-content-center">
+    <div className="edit-post-page">
 
-      <div className="col-md-8">
+      <div className="edit-post-card">
 
-        <div className="card shadow p-4">
+        <div className="edit-header">
 
-          <h2 className="mb-4">
-            Edit Blog Post
-          </h2>
+          <p className="edit-subtitle">
+            STORY EDITOR
+          </p>
 
-          <form onSubmit={handleUpdate}>
-
-            {/* Title */}
-            <div className="mb-3">
-
-              <label className="form-label">
-                Title
-              </label>
-
-              <input
-                type="text"
-                className="form-control"
-                value={title}
-                onChange={(e) =>
-                  setTitle(e.target.value)
-                }
-                required
-              />
-
-            </div>
-
-            {/* Content */}
-            <div className="mb-3">
-
-              <label className="form-label">
-                Content
-              </label>
-
-              <textarea
-                rows="10"
-                className="form-control"
-                value={content}
-                onChange={(e) =>
-                  setContent(e.target.value)
-                }
-                required
-              />
-
-            </div>
-
-            {/* Tags */}
-            <div className="mb-3">
-
-              <label className="form-label">
-                Tags
-              </label>
-
-              <input
-                type="text"
-                className="form-control"
-                placeholder="react, javascript, frontend"
-                value={tags}
-                onChange={(e) =>
-                  setTags(e.target.value)
-                }
-              />
-
-            </div>
-
-            {/* Meta Description */}
-            <div className="mb-4">
-
-              <label className="form-label">
-                Meta Description
-              </label>
-
-              <textarea
-                rows="3"
-                className="form-control"
-                value={metaDescription}
-                onChange={(e) =>
-                  setMetaDescription(
-                    e.target.value
-                  )
-                }
-              />
-
-            </div>
-
-            {/* Submit Button */}
-            <button className="btn btn-dark">
-              Update Post
-            </button>
-
-          </form>
+          <h1 className="edit-title">
+            Refine Your Story
+          </h1>
 
         </div>
+
+        <form onSubmit={handleUpdate}>
+
+          <div className="edit-group">
+
+            <label>
+              Story Title
+            </label>
+
+            <input
+              type="text"
+              className="edit-input"
+              value={title}
+              onChange={(e) =>
+                setTitle(e.target.value)
+              }
+              required
+            />
+
+          </div>
+
+          <div className="edit-group">
+
+            <label>
+              Story Content
+            </label>
+
+            <textarea
+              rows="14"
+              className="edit-textarea"
+              value={content}
+              onChange={(e) =>
+                setContent(e.target.value)
+              }
+              required
+            />
+
+          </div>
+
+          <div className="edit-group">
+
+            <label>
+              Tags
+            </label>
+
+            <input
+              type="text"
+              className="edit-input"
+              placeholder="react, nodejs, design"
+              value={tags}
+              onChange={(e) =>
+                setTags(e.target.value)
+              }
+            />
+
+          </div>
+
+          <div className="edit-group">
+
+            <label>
+              Meta Description
+            </label>
+
+            <textarea
+              rows="4"
+              className="edit-textarea"
+              value={metaDescription}
+              onChange={(e) =>
+                setMetaDescription(
+                  e.target.value
+                )
+              }
+            />
+
+          </div>
+
+          <div className="edit-actions">
+
+            <button
+              type="submit"
+              className="save-btn"
+            >
+              Save Changes
+            </button>
+
+            <button
+              type="button"
+              className="cancel-btn"
+              onClick={() =>
+                navigate(`/posts/${id}`)
+              }
+            >
+              Cancel
+            </button>
+
+          </div>
+
+        </form>
 
       </div>
 

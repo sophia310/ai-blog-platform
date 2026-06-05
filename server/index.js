@@ -10,6 +10,14 @@ const aiRoutes = require("./routes/aiRoutes");
 const userRoutes =
   require("./routes/userRoutes");
 
+const bookmarkRoutes =
+  require("./routes/bookmarkRoutes");
+
+const commentRoutes =
+  require(
+    "./routes/commentRoutes"
+  );
+
 
 const app = express();
 
@@ -19,6 +27,15 @@ app.use("/api/posts", postRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/ai", aiRoutes);
 app.use("/api/users", userRoutes);
+app.use(
+  "/api/bookmarks",
+  bookmarkRoutes
+);
+
+app.use(
+  "/api/comments",
+  commentRoutes
+);
 
 app.get("/", (req, res) => {
   res.send("AI Blog Platform API is running");
