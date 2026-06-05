@@ -63,8 +63,7 @@ const registerUser = async (req, res) => {
       const info =
         await transporter.sendMail({
 
-          from:
-            process.env.EMAIL_USER,
+          from: process.env.BREVO_SENDER,
 
           to: email,
 
