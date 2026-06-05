@@ -350,7 +350,7 @@ const forgotPassword = async (req, res) => {
         await transporter.sendMail({
 
           from:
-            process.env.EMAIL_USER,
+            process.env.BREVO_SENDER,
 
           to: email,
 

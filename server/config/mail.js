@@ -1,13 +1,19 @@
-const nodemailer = require("nodemailer");
+const { BrevoClient } = require("@getbrevo/brevo");
 
-const transporter = nodemailer.createTransport({
-  host: "smtp-relay.brevo.com",
-  port: 2525,
-  secure: false,
-  auth: {
-    user: process.env.BREVO_LOGIN,
-    pass: process.env.BREVO_PASSWORD
-  }
+const client = new BrevoClient({
+  apiKey: process.env.BREVO_API_KEY
 });
 
-module.exports = transporter;
+const sendMail = async ({ to, subject, html }) => {
+  return await client.transactionalEmails.sendTransacEmail({
+    sender: {
+      name: "Lumina",
+      email: process.env.BREVO_SENDER
+    },
+    to: [{ email: to }],
+    subject: subject,
+    htmlContent: html
+  });
+};
+
+module.exports = { sendMail };
